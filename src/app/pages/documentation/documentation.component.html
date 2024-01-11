@@ -1,0 +1,118 @@
+<div class="card mb-3">
+    <div>
+        <h2>Documentação</h2>
+        <h4>Início Rápido</h4>
+        <p>Sakai é um modelo de aplicativo para Angular e é distribuído como um projeto CLI. A versão atual é Angular v17 com PrimeNG v17. Caso o CLI ainda não esteja instalado, use o comando abaixo para configurá-lo.</p>
+
+        <pre class="app-code"><code>npm install -g &#64;angular/cli</code></pre>
+
+        <p>Assim que o CLI estiver pronto no seu sistema, extraia o conteúdo do arquivo zipado, acesse o diretório, instale as bibliotecas via npm e execute "ng serve" para rodar a aplicação no seu ambiente local.</p>
+
+        <pre class="app-code"><code>cd sakai
+npm install
+ng serve</code></pre>
+
+        <p>A aplicação deve rodar em <span class="font-semibold">http://localhost:4200/</span>; agora você pode começar o desenvolvimento da sua aplicação.</p>
+
+        <h5>Comandos Importantes do CLI</h5>
+        <p>Os seguintes comandos derivam do CLI.</p>
+
+        <pre class="app-code"><code>Execute 'ng serve' para um servidor de desenvolvimento. Acesse `http://localhost:4200/`. A aplicação recarregará automaticamente se você alterar qualquer um dos arquivos de origem.
+
+Execute 'ng generate component nome-do-componente' para gerar um novo componente. Você também pode usar `ng generate directive/pipe/service/class/module`.
+
+Execute 'ng build' para construir o projeto. Os artefatos da construção serão armazenados no diretório `dist/`. Use a bandeira `-prod` para uma construção de produção.
+
+Execute 'ng test' para executar os testes de unidade via [Karma](https://karma-runner.github.io).
+
+Execute 'ng e2e' para executar os testes end-to-end via [Protractor](http://www.protractortest.org/).
+
+Execute 'ng help' para mais opções.</code></pre>
+
+        <h4>Estrutura</h4>
+        <p>Sakai consiste em 3 partes principais: o layout da aplicação, assets do layout e assets do tema do componente PrimeNG. O layout está localizado dentro da pasta <span class="text-primary font-medium">src/app/layout</span>,
+            e os assets estão na pasta <span class="text-primary font-medium">src/assets/layout</span>.
+        </p>
+
+        <h5>Configuração Padrão</h5>
+        <p>A configuração inicial do layout pode ser definida no componente principal do aplicativo ao injetar o <span class="text-primary font-medium">LayoutService</span>; este passo é opcional e apenas necessário ao personalizar as configurações padrão. Observe que <span class="text-primary font-medium">theme</span> e
+            <span class="text-primary font-medium">scale</span> não são reativos, pois o tema é configurado fora do Angular em <strong class="font-semibold">index.html</strong> por padrão e
+            a escala inicial é definida com <span class="text-primary font-medium">$scale</span> em <strong class="font-semibold">layout.scss</strong>. Quando o tema ou a escala padrão são alterados nesses arquivos inicialmente, é necessário configurar o serviço de layout com os valores correspondentes
+            para evitar problemas de sincronização.</p>
+
+        <pre class="app-code"><code>import &#123; Component, OnInit &#125; from '&#64;angular/core';
+import &#123; PrimeNGConfig &#125; from 'primeng/api';
+import &#123; LayoutService, AppConfig &#125; from './layout/service/app.layout.service';
+
+&#64;Component(&#123;
+    selector: 'app-root',
+    templateUrl: './app.component.html'
+&#125;)
+export class AppComponent implements OnInit &#123;
+
+    constructor(private primengConfig: PrimeNGConfig, private layoutService: LayoutService) &#123; &#125;
+
+    ngOnInit(): void &#123;
+        this.primengConfig.ripple = true;       //habilita a funcionalidade básica de ripple
+
+        //configuração opcional com a configuração padrão
+        const config: AppConfig = &#123;
+            ripple: false,                      //liga e desliga o ripple
+            inputStyle: 'outlined',             //estilo padrão para elementos de input
+            menuMode: 'static',                 //modo de layout do menu, valores válidos são "static" e "overlay"
+            colorScheme: 'light',               //esquema de cores do template, valores válidos são "light" e "dark"
+            theme: 'lara-light-indigo',         //tema padrão do componente para PrimeNG
+            scale: 14                           //tamanho da fonte do corpo para dimensionar toda a aplicação
+        &#125;;
+        this.layoutService.config.set(config);
+    &#125;
+
+&#125;</code></pre>
+
+        <h5>Menu</h5>
+        <p>O menu é um componente separado definido no arquivo <span class="text-primary font-medium">src/app/layout/app.menu.component.ts</span> e baseado na API MenuModel do PrimeNG. Para definir os itens do menu,
+            acesse este arquivo e defina seu próprio modelo como uma estrutura aninhada.</p>
+
+        <pre class="app-code"><code>import &#123; OnInit &#125; from '&#64;angular/core';
+import &#123; Component &#125; from '&#64;angular/core';
+
+&#64;Component(&#123;
+    selector: 'app-menu',
+    templateUrl: './app.menu.component.html'
+&#125;)
+export class AppMenuComponent implements OnInit &#123;
+
+    model: any[] = [];
+
+    ngOnInit() &#123;
+        this.model = [
+            &#123;
+                label: 'Início',
+                items: [
+                    &#123;
+                        label: 'Painel de Controle',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/']
+                    &#125;
+                ]
+            &#125;,
+            //...
+        ];
+    &#125;
+&#125;</code></pre>
+
+        <h4>Integração com Projetos Angular CLI Existentes</h4>
+        <p>A estrutura do Sakai é projetada de maneira modular para que possa ser facilmente integrada ao seu aplicativo existente. Criamos um tutorial curto com detalhes.</p>
+
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/yl2f8KKY204" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <h4>Tema</h4>
+        <p>O Sakai fornece 34 temas PrimeNG prontos para uso. A configuração de um tema é simples, incluindo o CSS do tema
+            no seu pacote, localizado dentro da pasta <span class="text-primary font-medium">assets/layout/styles/theme/</span>
+            como <span class="text-primary font-medium">assets/layout/styles/theme/lara-light-indigo/theme.css</span>.</p>
+
+        <p>Outra alternativa seria criar bundles dinâmicos, consulte o <a href="https://www.youtube.com/watch?v=5VOuUdDXRsE" class="font-medium text-primary hover:underline">video tutorial</a> for an example.</p>
+    </div>
+</div>
