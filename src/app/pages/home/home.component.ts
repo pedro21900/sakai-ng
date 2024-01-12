@@ -7,11 +7,11 @@ import {LayoutService} from "../../@core/layout/service/app.layout.service";
 
 @Component({
     selector: 'app-landing',
-    templateUrl: './landing.component.html',
+    templateUrl: './home.component.html',
     standalone: true,
     imports: [StyleClassModule, ButtonModule, DividerModule]
 })
-export class LandingComponent {
+export class HomeComponent {
 
     constructor(public layoutService: LayoutService, public router: Router) { }
 

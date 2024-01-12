@@ -15,7 +15,7 @@ export const routes: Routes = [
         ]
     },
     { path: 'auth', loadChildren: () => import('./@core/auth/auth.routes').then(m => m.AUTH_ROUTES) },
-    { path: 'landing', loadChildren: () => import('./pages/landing/landing.routes').then(m => m.LANDING_ROUTES) },
+    { path: 'home', loadChildren: () => import('./pages/home/home.routes').then(m => m.HOME_ROUTES) },
     { path: 'notfound', component: NotfoundComponent },
     { path: '**', redirectTo: '/notfound' }
 ]
